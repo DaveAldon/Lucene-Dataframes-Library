@@ -23,7 +23,9 @@ def main():
         value = html.fromstring(page.content)
     except:
         print('This instance is trapped!')
-        query = getQueryLucene(WHERE), fields=SELECT, store=FROM, limit=limit)
+        query = getQueryLucene(WHERE) + SELECT + FROM + limit
+
+    print(query)
 
     #Use the result of query on your database. That's it!
 

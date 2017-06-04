@@ -13,6 +13,8 @@ def example_function():
     query = '()%s' % (param_builder('FIELD_NAME', param_list))
     #CSV maker usage
     output = create_full_csv(report_name, df, duplicates, format_title)
+    print(query)
+    print(output)
 
 #Builds a Lucene query formatted string of fields from a list
 def param_builder(field, params):
