@@ -21,8 +21,9 @@ def main():
         query = getQueryURL(SELECT, FROM, WHERE, extras, report_name, report_format)
         page = requests.get(query)
         value = html.fromstring(page.content)
-    except:
-        print('This instance is trapped!')
+        print('Deployment Environment Successful: ' + value)
+    except Exception as e:
+        print(e + ': This instance is trapped!')
         query = getQueryLucene(WHERE) + SELECT + FROM + limit
 
     print(query)
@@ -38,7 +39,7 @@ def getQueryLucene(WHERE_boolean):
     return where
 
 #URL converter
-def getQueryURL(SELECT_fields, FROM_store, WHERE_boolean, extra_params, name, format):
+def getQueryURL(SELECT_fields, FROM_store, WHERE_boolean, extra_params, name, format_clause_in):
     def make_where(values):
         where = '()'
         for value in values:
@@ -47,14 +48,13 @@ def getQueryURL(SELECT_fields, FROM_store, WHERE_boolean, extra_params, name, fo
             where += '(%s):%s' % (val[0], val[1].replace(' ', '%'))
         return where
 
-    ip = 'Database address'
+    ip = 'Database_Location_Name=%s' % FROM_store
     query_type = 'q' #Or whatever you need
     where_clause = make_where(WHERE_boolean)
     select_clause = 'Field_Column_Name=%s' % SELECT_fields
-    from_clause = 'Database_Location_Name=%s' % FROM_store
     extra_clause = ''
     name_clause = 'output_file_path=%s' % name
-    format_clause = 'format=%s' % format
+    format_clause = 'format=%s' % format_clause_in
 
     for val in extra_params:
         extra_clause += val + '&'

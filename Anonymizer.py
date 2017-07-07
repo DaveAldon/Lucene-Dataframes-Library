@@ -11,7 +11,7 @@ import random
 from datetime import datetime
 from datetime import timedelta
 import string
-import math
+import os
 
 def main():
     #Sample df
@@ -53,29 +53,29 @@ def randNum(field, seed, varType):
     random.seed(seed)
 
     if varType == 1:
-        field = random.randrange(field-5,field+5)
+        field = random.SystemRandom().randint(field-5, field+5)
 
     elif varType == 2:
         try:
             field = datetime.strptime(field, '%Y-%m-%d %H:%M:%S')
-        except:
+        except Exception as e:
             try:
                 field = datetime.strptime(field, '%Y-%m-%d %H:%M')
-            except:
+            except Exception as e:
                 return field
-        field += timedelta(days=random.randrange(-30, 30, 1))
+        field += timedelta(days=random.SystemRandom().randint(-30, 30))
 
     elif varType == 3:
-        field = random.choice(string.ascii_uppercase) + "xxxxxx"
+        field = random.SystemRandom().choice(string.ascii_uppercase) + "xxxxxx"
 
     elif varType == 4:
         field = "REDACTED..."
 
     elif varType == 5:
         field = str(field)
-        min = 10**(len(field) - 1)
-        max = (10**len(field)) - 1
-        field = random.randrange(min,max)
+        min_val = 10**(len(field) - 1)
+        max_val = (10**len(field)) - 1
+        field = random.SystemRandom().randint(min_val, max_val)
 
     #If all else fails, we'll just end up returning the field value anyway
     return field
