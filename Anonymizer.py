@@ -11,6 +11,7 @@ import random
 from datetime import datetime
 from datetime import timedelta
 import string
+import math
 
 def main():
     #Sample df
@@ -24,11 +25,13 @@ def main():
     #1 - age
     #2 - date
     #3 - name
-    #4 - addresse
+    #4 - address
+    #5 - number
     anon_items = {'age': 1,
                   'date_time': 2,
                   'name': 3,
-                  'address': 4
+                  'address': 4,
+                  'zip': 5
                   }
 
     #Loop through the dictonary and apply the randomization function to each row
@@ -40,23 +43,39 @@ def main():
 #Takes a field, the seed we want for each record, and the dictionary type to
 #determine which randomization method we need
 def randNum(field, seed, varType):
-    #First establish the seed each time. If the seed needs to be the same for
+    #First check if the field even has data in it, then establish the seed each
+    #iteration of the function. If the seed needs to be the same for
     #more than one record, it will because the id will be the same
+
+    if str(field) in 'nan':
+        return field
+
     random.seed(seed)
 
     if varType == 1:
         field = random.randrange(field-5,field+5)
 
     elif varType == 2:
-        field = datetime.strptime(field, '%Y-%m-%d %H:%M:%S')
+        try:
+            field = datetime.strptime(field, '%Y-%m-%d %H:%M:%S')
+        except:
+            try:
+                field = datetime.strptime(field, '%Y-%m-%d %H:%M')
+            except:
+                return field
         field += timedelta(days=random.randrange(-30, 30, 1))
-        print(field)
 
     elif varType == 3:
         field = random.choice(string.ascii_uppercase) + "xxxxxx"
 
     elif varType == 4:
         field = "REDACTED..."
+
+    elif varType == 5:
+        field = str(field)
+        min = 10**(len(field) - 1)
+        max = (10**len(field)) - 1
+        field = random.randrange(min,max)
 
     #If all else fails, we'll just end up returning the field value anyway
     return field
