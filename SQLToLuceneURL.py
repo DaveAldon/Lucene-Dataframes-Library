@@ -21,9 +21,9 @@ def main():
         query = getQueryURL(SELECT, FROM, WHERE, extras, report_name, report_format)
         page = requests.get(query)
         value = html.fromstring(page.content)
-        print('Deployment Environment Successful: ' + value)
+        print('Deployment Environment Successful: %s' % value)
     except Exception as e:
-        print(e + ': This instance is trapped!')
+        print('%s: This instance is trapped!' % e)
         query = getQueryLucene(WHERE) + SELECT + FROM + limit
 
     print(query)

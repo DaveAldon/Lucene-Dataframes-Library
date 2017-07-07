@@ -11,7 +11,8 @@ import random
 from datetime import datetime
 from datetime import timedelta
 import string
-import os
+
+error_list = []
 
 def main():
     #Sample df
@@ -59,14 +60,16 @@ def randNum(field, seed, varType):
         try:
             field = datetime.strptime(field, '%Y-%m-%d %H:%M:%S')
         except Exception as e:
+            error_list.append(e)
             try:
                 field = datetime.strptime(field, '%Y-%m-%d %H:%M')
             except Exception as e:
+                error_list.append(e)
                 return field
         field += timedelta(days=random.SystemRandom().randint(-30, 30))
 
     elif varType == 3:
-        field = random.SystemRandom().choice(string.ascii_uppercase) + "xxxxxx"
+        field = "%sxxxxxx" % random.SystemRandom().choice(string.ascii_uppercase)
 
     elif varType == 4:
         field = "REDACTED..."

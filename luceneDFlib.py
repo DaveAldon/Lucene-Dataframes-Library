@@ -50,6 +50,7 @@ def create_full_csv(report_name, df, duplicates, format_title):
     csv_data.append(list(""))
     csv_data[0].append(str(','.join(df.columns.values)))
     for index, row in df.iterrows():
+        print('Processing row %s' % index)
         csv_data.append(list(""))
         for column in df:
             csv_data[rcount].append(str(row[column]))
