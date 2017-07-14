@@ -5,13 +5,10 @@
 #3. We request the data from this job id
 #4. The user is prompted to delete the requested data from its output location.
 
-import urllib.request as urllib2
-import ssl
 import time
 import sys
 import re
 import requests
-from pdb import set_trace
 from distutils.util import strtobool
 
 def main():
